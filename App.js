@@ -1,26 +1,52 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { ReactP5Wrapper } from "react-p5-wrapper";
-
-
-function sketch(p5) {
-  p5.setup = () => p5.createCanvas(600, 400, p5.WEBGL);
-
-  p5.draw = () => {
-    p5.background(250);
-    p5.normalMaterial();
-    p5.push();
-    p5.rotateZ(p5.frameCount * 0.01);
-    p5.rotateX(p5.frameCount * 0.01);
-    p5.rotateY(p5.frameCount * 0.01);
-    p5.plane(100);
-    p5.pop();
-  };
-}
-
+import p5 from 'p5';
+//import { ReactP5Wrapper } from "react-p5-wrapper";
+//import Sketch from 'react-p5';
+/*
 function Art() {
-  return <ReactP5Wrapper sketch={sketch} />;
+  const setup = (p5, canvasParentRef) => {
+    p5.createCanvas(500, 400).parent(canvasParentRef)
+  }
+  const draw = p5 => {
+    p5.background(255, 120, 20)
+    p5.ellipse(100, 100, 100)
+  }
+  return <Sketch setup={setup} draw={draw} />;
+}
+*/
+
+class Art extends React.Component {
+  constructor(props) {
+    super(props)
+    this.myRef = React.createRef()
+  }
+
+  Sketch = (p) => {
+
+     p.setup = () => {
+      p.createCanvas(200, 200)
+     }
+
+     p.draw = () => {
+      p.background(0);
+      p.fill(255);
+      p.rect(10, 10, 50, 50)
+     }
+  }
+
+  componentDidMount() {
+    this.myP5 = new p5(this.Sketch, this.myRef.current)
+  }
+
+  render() {
+    return (
+      <div ref={this.myRef}>
+
+      </div>
+    )
+  }
 }
 
 export default function App() {
